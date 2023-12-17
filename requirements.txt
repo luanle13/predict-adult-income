@@ -2,3 +2,4 @@ pandas
 ucimlrepo
 scikit-learn
 keras
+tensorflow
