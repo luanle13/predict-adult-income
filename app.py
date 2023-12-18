@@ -4,9 +4,11 @@ from keras.models import load_model
 import pandas as pd
 import os
 from sklearn.preprocessing import LabelEncoder, StandardScaler
+from flask_cors import CORS
 
 
 app = Flask(__name__)
+CORS(app)
 model = load_model('./models/dnn/')
 mapping_folder_path = './categories'
 file_extension = '.txt'
@@ -63,7 +65,7 @@ def preprocess(data):
 
 
 def postprocess(prediction):
-    return '> 50k' if prediction == 1 else '<= 50k'
+    return '> 50k' if prediction > 0.5 else '<= 50k'
 
 
 @app.route('/predict', methods=['POST'])
