@@ -65,7 +65,7 @@ const FormSchema = z.object({
 });
 
 export function PredictForm() {
-  const [result, setResult] = useState("");
+  const [result, setResult] = useState("...");
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -118,106 +118,132 @@ export function PredictForm() {
   }
 
   return (
-    <div className="w-full">
-      <Form {...form}>
-        <form
-          onSubmit={form.handleSubmit(onSubmit)}
-          className="w-2/3 space-y-6"
-        >
-          <ControlledInput
-            control={form.control}
-            name="age"
-            label="Age"
-            inputProps={{ placeholder: "Enter age...", type: "number" }}
-          />
-          <ControlledInput
-            control={form.control}
-            name="educationNum"
-            label="Education Number"
-            inputProps={{
-              placeholder: "Enter education number...",
-              type: "number",
-            }}
-          />
-          <ControlledInput
-            control={form.control}
-            name="capitalGain"
-            label="Capital Gain"
-            inputProps={{
-              placeholder: "Enter capital gain...",
-              type: "number",
-            }}
-          />
-          <ControlledInput
-            control={form.control}
-            name="capitalLoss"
-            label="Capital Loss"
-            inputProps={{
-              placeholder: "Enter capital loss...",
-              type: "number",
-            }}
-          />
-          <ControlledInput
-            control={form.control}
-            name="hoursPerWeek"
-            label="Hours Per Week"
-            inputProps={{
-              placeholder: "Enter hours per week...",
-              type: "number",
-            }}
-          />
-          <ControlledCombobox
-            control={form.control}
-            selections={EducationOptions}
-            name="education"
-            label="Education"
-          />
-          <ControlledCombobox
-            control={form.control}
-            selections={MaritalStatusOptions}
-            name="maritalStatus"
-            label="Marital Status"
-          />
-          <ControlledCombobox
-            control={form.control}
-            selections={NativeCountryOptions}
-            name="nativeCountry"
-            label="Native Country"
-          />
-          <ControlledCombobox
-            control={form.control}
-            selections={OccupationOptions}
-            name="occupation"
-            label="Occupation"
-          />
-          <ControlledCombobox
-            control={form.control}
-            selections={RaceOptions}
-            name="race"
-            label="Race"
-          />
-          <ControlledCombobox
-            control={form.control}
-            selections={RelationshipOptions}
-            name="relationship"
-            label="Relationship"
-          />
-          <ControlledCombobox
-            control={form.control}
-            selections={SexOptions}
-            name="sex"
-            label="Sex"
-          />
-          <ControlledCombobox
-            control={form.control}
-            selections={WorkClassOptions}
-            name="workclass"
-            label="Work Class"
-          />
-          <Button type="submit">Check</Button>
-        </form>
-      </Form>
-      <h3>{result}</h3>
+    <div className="w-full flex flex-col md:flex-row">
+      <div className="md:w-2/3 md:pr-6">
+        <Form {...form}>
+          <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            className="flex flex-col space-y-6"
+          >
+            <div className="grid grid-cols-5 gap-4">
+              <ControlledInput
+                control={form.control}
+                name="age"
+                label="Age"
+                inputProps={{
+                  placeholder: "Enter age...",
+                  type: "number",
+                  className: "col-span-1",
+                }}
+              />
+              <ControlledInput
+                control={form.control}
+                name="educationNum"
+                label="Education Number"
+                inputProps={{
+                  placeholder: "Enter education number...",
+                  type: "number",
+                  className: "col-span-1",
+                }}
+              />
+              <ControlledInput
+                control={form.control}
+                name="capitalGain"
+                label="Capital Gain"
+                inputProps={{
+                  placeholder: "Enter capital gain...",
+                  type: "number",
+                  className: "col-span-1",
+                }}
+              />
+              <ControlledInput
+                control={form.control}
+                name="capitalLoss"
+                label="Capital Loss"
+                inputProps={{
+                  placeholder: "Enter capital loss...",
+                  type: "number",
+                  className: "col-span-1",
+                }}
+              />
+              <ControlledInput
+                control={form.control}
+                name="hoursPerWeek"
+                label="Hours Per Week"
+                inputProps={{
+                  placeholder: "Enter hours per week...",
+                  type: "number",
+                  className: "col-span-1",
+                }}
+              />
+            </div>
+            <div className="grid grid-cols-4 gap-4">
+              <ControlledCombobox
+                control={form.control}
+                selections={EducationOptions}
+                name="education"
+                label="Education"
+              />
+              <ControlledCombobox
+                control={form.control}
+                selections={MaritalStatusOptions}
+                name="maritalStatus"
+                label="Marital Status"
+              />
+              <ControlledCombobox
+                control={form.control}
+                selections={NativeCountryOptions}
+                name="nativeCountry"
+                label="Native Country"
+              />
+              <ControlledCombobox
+                control={form.control}
+                selections={OccupationOptions}
+                name="occupation"
+                label="Occupation"
+              />
+            </div>
+            <div className="grid grid-cols-4 gap-4">
+              <ControlledCombobox
+                control={form.control}
+                selections={RaceOptions}
+                name="race"
+                label="Race"
+              />
+              <ControlledCombobox
+                control={form.control}
+                selections={RelationshipOptions}
+                name="relationship"
+                label="Relationship"
+              />
+              <ControlledCombobox
+                control={form.control}
+                selections={SexOptions}
+                name="sex"
+                label="Sex"
+              />
+              <ControlledCombobox
+                control={form.control}
+                selections={WorkClassOptions}
+                name="workclass"
+                label="Work Class"
+              />
+            </div>
+            <Button type="submit" className="w-1/2 mx-auto">
+              Check
+            </Button>
+          </form>
+        </Form>
+      </div>
+      <div className="md:w-1/3 mt-4 md:mt-0 flex items-center justify-center">
+        <label className="text-6xl text-center">{`The income of this person is ${
+          result === "> 50k"
+            ? "> 50,000"
+            : result === "<= 50k"
+            ? "≤ 50,000"
+            : "..."
+        } USD/year`}</label>
+      </div>
     </div>
   );
 }
