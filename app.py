@@ -12,16 +12,16 @@ app.config['CORS_HEADERS'] = 'Content-Type'
 
 with open('svm_model.pkl', 'rb') as model_file:
     loaded_svm_model = pickle.load(model_file)
-mapping_folder_path = './categories'
+mapping_folder_path = '/home/luanle13/mysite/categories'
 file_extension = '.txt'
 file_list = [file_name for file_name in os.listdir(mapping_folder_path) if file_name.endswith(file_extension)]
-df_train = pd.read_csv('./data/adult.data')
+df_train = pd.read_csv('/home/luanle13/mysite/adult.data')
 df_train = df_train.drop('income', axis=1).drop('fnlwgt', axis=1)
 for file_name in file_list:
     column = file_name.split('.')[0]
     if column == 'income':
         continue
-    with open(f'./categories/{file_name}', 'r') as file:
+    with open(f'/home/luanle13/mysite/categories/{file_name}', 'r') as file:
         labels = []
         for line in file:
             labels.append(line.strip())
@@ -43,7 +43,7 @@ def encode_data(data):
         column = file_name.split('.')[0]
         if column == 'income':
             continue
-        with open(f'./categories/{file_name}', 'r') as file:
+        with open(f'/home/luanle13/mysite/categories/{file_name}', 'r') as file:
             labels = []
             for line in file:
                 labels.append(line.strip())
