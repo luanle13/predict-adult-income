@@ -104,10 +104,13 @@ export function PredictForm() {
         "hours-per-week": data.hoursPerWeek,
         "native-country": data.nativeCountry,
       };
-      const response = await fetch("http://localhost:5000/predict", {
-        method: "POST",
-        body: JSON.stringify(body),
-      });
+      const response = await fetch(
+        "https://luanle13.pythonanywhere.com/predict",
+        {
+          method: "POST",
+          body: JSON.stringify(body),
+        }
+      );
       if (response.ok) {
         const responseData = await response.json();
         setResult(responseData);
