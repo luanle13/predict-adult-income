@@ -1,15 +1,17 @@
 from flask import Flask, request, jsonify
-import tensorflow as tf
-from keras.models import load_model
 import pandas as pd
 import os
 from sklearn.preprocessing import LabelEncoder, StandardScaler
 from flask_cors import CORS
+import pickle
 
 
 app = Flask(__name__)
-CORS(app)
-model = load_model('./models/dnn/')
+cors = CORS(app)
+app.config['CORS_HEADERS'] = 'Content-Type'
+
+with open('svm_model.pkl', 'rb') as model_file:
+    loaded_svm_model = pickle.load(model_file)
 mapping_folder_path = './categories'
 file_extension = '.txt'
 file_list = [file_name for file_name in os.listdir(mapping_folder_path) if file_name.endswith(file_extension)]
@@ -72,7 +74,7 @@ def postprocess(prediction):
 def predict():
     data = request.get_json(force=True)
     input_data = preprocess(data)
-    prediction = model.predict(input_data)
+    prediction = loaded_svm_model.predict(input_data)
     result = postprocess(prediction)
     return jsonify(result)
 
